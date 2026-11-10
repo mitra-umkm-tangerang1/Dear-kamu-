@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Untuk Tario Dari Bagas ❤️</title>
+  <!-- Font Pixel Retro Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: #030106;
+      color: #ffffff;
+      font-family: 'Press Start 2P', monospace;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Efek Garis Layar TV Retro (CRT Scanline) */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0.3)
+      );
+      background-size: 100% 4px;
+      z-index: 99;
+    }
+
+    /* === SCREEN 1: KOTAK POPUP RETRO === */
+    #proposal-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .retro-window {
+      background: #000;
+      border: 4px solid #fff;
+      box-shadow: 10px 10px 0px #333;
+      padding: 30px 25px;
+      width: 90%;
+      max-width: 440px;
+      text-align: center;
+      position: relative;
+    }
+
+    .window-header {
+      position: absolute;
+      top: -18px;
+      left: 14px;
+      background: #000;
+      padding: 0 10px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .pixel-dot {
+      width: 10px;
+      height: 10px;
+      border: 2px solid #fff;
+      display: inline-block;
+    }
+
+    .question {
+      font-size: 14px;
+      line-height: 1.8;
+      min-height: 60px;
+      margin-top: 10px;
+      margin-bottom: 25px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 16px;
+      background: #fff;
+      vertical-align: middle;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      height: 50px;
+    }
+
+    .btn {
+      font-family: 'Press Start 2P', monospace;
+      padding: 10px 20px;
+      font-size: 12px;
+      background: #000;
+      color: #fff;
+      border: 2px solid #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-yes:hover {
+      background: #ff2a85;
+      border-color: #ff2a85;
+      box-shadow: 0 0 10px #ff2a85;
+    }
+
+    .btn-no {
+      position: absolute;
+      right: 20%;
+    }
+
+    /* === SCREEN 2: MATRIX & HATI === */
+    #love-stage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      z-index: 5;
+    }
+
+    canvas#matrix {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .love-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .love-text {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #ffffff;
+      text-shadow: 
+        0 0 5px #ff66b2,
+        0 0 10px #ff2a85,
+        0 0 20px #ff2a85,
+        0 0 35px #ff007f;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding: 0 15px;
+      animation: pulseText 1.5s infinite alternate;
+    }
+
+    @keyframes pulseText {
+      from { transform: scale(1); filter: brightness(1); }
+      to { transform: scale(1.05); filter: brightness(1.3); }
+    }
+
+    canvas#heart {
+      width: 320px;
+      height: 280px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scanlines"></div>
+
+  <!-- Tahap 1: Pop-up Pertanyaan -->
+  <div id="proposal-container">
+    <div class="retro-window">
+      <div class="window-header">
+        <span class="pixel-dot"></span>
+        <span class="pixel-dot"></span>
+        <span class="pixel-dot"></span>
+      </div>
+      <div class="question" id="typed-text"></div>
+      <div class="buttons">
+        <button class="btn btn-yes" id="btn-yes">Mau</button>
+        <button class="btn btn-no" id="btn-no">Gamau</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tahap 2: Tampilan Matrix & Hati -->
+  <div id="love-stage">
+    <canvas id="matrix"></canvas>
+    <div class="love-content">
+      <h1 class="love-text">
+        aku sayang kamu<br>dear tario
+      </h1>
+      <canvas id="heart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // 1. Efek Ketik (Typewriter Effect)
+    const textToType = "Hai tario, kamu mau jadi pacar aku ga? 💖";
+    const textElement = document.getElementById("typed-text");
+    let charIndex = 0;
+
+    function typeWriter() {
+      if (charIndex < textToType.length) {
+        textElement.innerHTML = textToType.substring(0, charIndex + 1) + '<span class="cursor"></span>';
+        charIndex++;
+        setTimeout(typeWriter, 80);
+      } else {
+        textElement.innerHTML = textToType + ' <span class="cursor"></span>';
+      }
+    }
+    window.onload = typeWriter;
+
+    // 2. Tombol "Gamau" Menghindar saat Didekati / Disentuh
+    const btnNo = document.getElementById("btn-no");
+    function moveButton() {
+      const maxX = window.innerWidth - btnNo.offsetWidth - 50;
+      const maxY = window.innerHeight - btnNo.offsetHeight - 50;
+      
+      const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+      const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+      
+      btnNo.style.position = "fixed";
+      btnNo.style.left = randomX + "px";
+      btnNo.style.top = randomY + "px";
+    }
+
+    btnNo.addEventListener("mouseenter", moveButton);
+    btnNo.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveButton();
+    });
+
+    // 3. Tombol "Mau" Diklik
+    const btnYes = document.getElementById("btn-yes");
+    const proposalContainer = document.getElementById("proposal-container");
+    const loveStage = document.getElementById("love-stage");
+
+    btnYes.addEventListener("click", () => {
+      proposalContainer.style.display = "none";
+      btnNo.style.display = "none";
+      loveStage.style.display = "block";
+      setTimeout(() => {
+        loveStage.style.opacity = 1;
+      }, 50);
+
+      startMatrixRain();
+      startHeartAnimation();
+    });
+
+    // 4. Efek Pink Matrix Rain
+    const matrixCanvas = document.getElementById("matrix");
+    const mCtx = matrixCanvas.getContext("2d");
+
+    function resizeMatrix() {
+      matrixCanvas.width = window.innerWidth;
+      matrixCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeMatrix);
+    resizeMatrix();
+
+    const chars = "ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ♥♡1234567890LOVE";
+    const fontSize = 16;
+    let columns = Math.floor(window.innerWidth / fontSize);
+    let drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+      mCtx.fillStyle = "rgba(3, 1, 6, 0.15)";
+      mCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+      mCtx.font = fontSize + "px 'VT323', monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        
+        // Warna Pink Neon Matrix
+        mCtx.fillStyle = Math.random() > 0.85 ? "#ffffff" : "#ff3b94";
+        mCtx.shadowColor = "#ff007f";
+        mCtx.shadowBlur = 8;
+        
+        mCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    function startMatrixRain() {
+      setInterval(drawMatrix, 40);
+    }
+
+    // 5. Efek Detak Jantung Neon dengan Rumus Matematika (Persis di gambar)
+    const heartCanvas = document.getElementById("heart");
+    const hCtx = heartCanvas.getContext("2d");
+
+    heartCanvas.width = 340;
+    heartCanvas.height = 300;
+
+    // Rumus Matematika Hati dari tangkapan layar kode
+    function heartPoint(t, cx, cy, scale) {
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+      return {
+        x: cx + x * scale,
+        y: cy + y * scale
+      };
+    }
+
+    let heartScale = 8;
+    let heartAngle = 0;
+
+    function drawHeart() {
+      hCtx.clearRect(0, 0, heartCanvas.width, heartCanvas.height);
+
+      // Efek detak jantung berdenyut (Pulse heartbeat)
+      const pulse = Math.sin(heartAngle) * 0.6;
+      const currentScale = heartScale + pulse;
+      heartAngle += 0.08;
+
+      const cx = heartCanvas.width / 2;
+      const cy = heartCanvas.height / 2 - 10;
+
+      // Bentuk Hati
+      hCtx.save();
+      hCtx.beginPath();
+      for (let t = 0; t <= Math.PI * 2; t += 0.02) {
+        const p = heartPoint(t, cx, cy, currentScale);
+        if (t === 0) hCtx.moveTo(p.x, p.y);
+        else hCtx.lineTo(p.x, p.y);
+      }
+      hCtx.closePath();
+
+      // Bayangan Neon Pink
+      hCtx.shadowColor = "#ff2a85";
+      hCtx.shadowBlur = 25;
+      hCtx.fillStyle = "#ff66b2";
+      hCtx.fill();
+
+      // Pola Garis Horizontal Retro di Dalam Hati
+      hCtx.clip();
+      hCtx.strokeStyle = "rgba(0, 0, 0, 0.4)";
+      hCtx.lineWidth = 3;
+      for (let y = 0; y < heartCanvas.height; y += 6) {
+        hCtx.beginPath();
+        hCtx.moveTo(0, y);
+        hCtx.lineTo(heartCanvas.width, y);
+        hCtx.stroke();
+      }
+      hCtx.restore();
+
+      requestAnimationFrame(drawHeart);
+    }
+
+    function startHeartAnimation() {
+      drawHeart();
+    }
+  </script>
+</body>
+</html>
